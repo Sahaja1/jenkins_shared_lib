@@ -1,14 +1,27 @@
 def call(Map pipelineParams){
 def projectName = pipelineParams.ecrRepoName
-
 pipeline {
  agent any
   environment {
-    registry = "ybmsr/${projectName}"
+    registry = "sahaja/${projectName}"
     registryCredential = 'dockerhub_credentials'
     dockerImage = ''
   }
+  tools
+   {
+    maven "maven3"
+   }
   stages {
+    stage('get scm') {
+      steps {
+	        git credentialsId: 'github_credentials', url: 'https://github.com/Sahaja1/spring3_Jms21_githubactions.git'
+       }
+    }
+	  stage('mavenbuild'){
+	   steps{
+	    sh 'mvn package'
+	   }
+	   }
     stage('Building image') {
       steps{
         script {
