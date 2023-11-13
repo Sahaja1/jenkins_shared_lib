@@ -3,7 +3,7 @@ def projectName = pipelineParams.ecrRepoName
 pipeline {
  agent any
   environment {
-    registry = "sahaja/${projectName}"
+    registry = "sahaja/$projectName"
     registryCredential = 'dockerhub_credentials'
     dockerImage = ''
   }
@@ -12,12 +12,7 @@ pipeline {
     maven "maven3"
    }
   stages {
-    stage('get scm') {
-      steps {
-	        git credentialsId: 'github_credentials', url: 'https://github.com/Sahaja1/${projectName}'
-       }
-    }
-	  stage('mavenbuild'){
+     stage('mavenbuild'){
 	   steps{
 	    sh 'mvn package'
 	   }
