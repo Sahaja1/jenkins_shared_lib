@@ -11,7 +11,16 @@ pipeline {
         ECRURL = 'https://767314985881.dkr.ecr.ap-south-1.amazonaws.com/${projectName}'
         ECRCRED = 'ecr:ap-south-1:aws_credentials'
     }
+   tools
+   {
+    maven "maven3"
+   }
     stages {
+         stage('mavenbuild'){
+	        steps{
+	          sh 'mvn package'
+	         }
+	       }
          stage('Image Build'){
              steps{
                  script{
